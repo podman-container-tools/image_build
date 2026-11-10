@@ -58,6 +58,8 @@ showrun podman load -i $HOME/$FQIN_FILE
 # These tests come directly from the aio/README.md examples
 mkdir $TMPD/cntr_storage
 mkdir $TMPD/context
+# Back the inner build-context overlay with the runner filesystem.
+mkdir -m 1777 "$TMPD/var_tmp"
 echo -e 'FROM registry.fedoraproject.org/fedora-minimal:latest\nENV TESTING=true' > $TMPD/context/Containerfile
 for tool in buildah podman; do
     msg "Verify $tool can create a simple image as root inside $FQIN"
@@ -65,6 +67,7 @@ for tool in buildah podman; do
     showrun podman run -i --rm --net=host --security-opt label=disable --privileged \
         --security-opt seccomp=unconfined --device /dev/fuse:rw \
         -v $TMPD/cntr_storage:/var/lib/containers:Z \
+        -v "$TMPD/var_tmp:/var/tmp:Z" \
         -v $TMPD/context:/root/context:Z \
         $FQIN $tool build -t root_testimage /root/context
 
@@ -74,6 +77,7 @@ for tool in buildah podman; do
         --security-opt seccomp=unconfined --device /dev/fuse:rw \
         --user user --userns=keep-id:uid=1000,gid=1000 \
         -v $TMPD/cntr_storage:/home/user/.local/share/containers:Z \
+        -v "$TMPD/var_tmp:/var/tmp:Z" \
         -v $TMPD/context:/home/user/context:Z \
         $FQIN $tool build -t rootless_testimage /home/user/context
 done
