@@ -125,6 +125,7 @@ jobs:
       options: --privileged --device /dev/fuse
       volumes:
         - /var/lib/containers
+        - /var/tmp
     env:
       A_DEBUG: 1
     steps:

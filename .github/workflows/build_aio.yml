@@ -37,6 +37,7 @@ jobs:
       options: --privileged --device /dev/fuse
       volumes:
         - /var/lib/containers
+        - /var/tmp
     env:
       REGISTRY_AUTH_FILE: /tmp/auth.json
       A_DEBUG: ${{ inputs.push && '0' || '1' }}
