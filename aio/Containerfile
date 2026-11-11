@@ -87,9 +87,9 @@ RUN mkdir -p /etc/containers/storage.rootful.conf.d && \
     echo 'driver = "overlay"' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
     echo '[storage.options]' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
     echo 'additionalimagestores = ["/usr/lib/containers/storage","/var/lib/shared"]' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
-    echo '[storage.overlay]' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
+    echo '[storage.options.overlay]' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
     echo 'mount_program = "/usr/bin/fuse-overlayfs"' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
-    echo 'mountopt= "nodev,fsync=0"' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf
+    echo 'mountopt = "nodev,fsync=0"' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf
 
 # Force `user` to end up with UID/GID 1000, set up some ID mappings, and create
 # directories that they will need to be able to write to.
@@ -108,9 +108,9 @@ RUN mkdir -p /etc/containers/storage.rootless.conf.d && \
     echo 'driver = "overlay"' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
     echo '[storage.options]' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
     echo 'additionalimagestores = ["/var/lib/shared"]' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
-    echo '[storage.overlay]' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
+    echo '[storage.options.overlay]' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
     echo 'mount_program = "/usr/bin/fuse-overlayfs"' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
-    echo 'mountopt= "nodev,fsync=0"' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf
+    echo 'mountopt = "nodev,fsync=0"' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf
 
 # Setup internal Podman and Buildah to pass secrets/subscriptions that are
 # passed down from the host on down to commands and builds that they run.
