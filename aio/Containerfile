@@ -81,7 +81,7 @@ RUN dnf -y makecache && \
     rm -rf /var/cache/*/* /var/log/dnf* /var/log/yum.*
 
 # Copy & modify the system-wide defaults: use fuse-overlay storage.
-COPY --chmod=644 containers.conf /etc/containers/containers.conf
+COPY --chmod=644 containers.conf /etc/containers/containers.conf.d/20-image_build.conf
 RUN mkdir -p /etc/containers/storage.rootful.conf.d && \
     echo '[storage]' > /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
     echo 'driver = "overlay"' >> /etc/containers/storage.rootful.conf.d/20-image_build.conf && \
@@ -102,7 +102,7 @@ RUN groupadd -g 1000 $UUSER && useradd -u 1000 -g 1000 $UUSER && \
     chown -R $UUSER:$UUSER /home/$UUSER /run/user/1000
 
 # Create modified configurations for the unprivileged user.
-COPY --chmod=644 user-containers.conf /etc/containers/containers.rootless.conf.d/20-image_build.conf
+COPY --chmod=644 user-containers.conf /etc/containers/containers.rootless.conf.d/30-image_build-rootless.conf
 RUN mkdir -p /etc/containers/storage.rootless.conf.d && \
     echo '[storage]' > /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
     echo 'driver = "overlay"' >> /etc/containers/storage.rootless.conf.d/20-image_build.conf && \
